@@ -12,7 +12,7 @@
         >
           <q-carousel-slide :name="1" img-src="~assets/carousel/1.jpg">
             <div class="absolute-center custom-caption text-center q-ma-xl ">
-              <div class="text-h2 text-white">October 1st an 2nd, 2020</div>
+              <div class="text-h2 text-white">October 1st and 2nd, 2020</div>
               <div class="text-h5 text-white">Two awsome days full of talks, workshops and discussions</div>
             </div>
           </q-carousel-slide>
