@@ -40,8 +40,9 @@
     </div>
 
     <pre>
-    cmsSpeakers: {{ JSON.stringify(cmsSpeakers, null, '\t') }}
-    </pre> -->
+    cmsSpeakers: {{ cmsSpeakers }}
+    </pre>
+-->
 
     <div class="row q-ma-xl">
 
@@ -60,8 +61,7 @@
 
             <q-card-section>
               <div class="text-h5 q-mt-sm q-mb-xs">{{ speaker.fields.name }}</div>
-              <div class="text-caption text-grey">
-                {{ speaker.fields.bio.content[0].content[0].value }}
+              <div class="text-caption text-grey" v-html="parseContentfulJson(speaker.fields.bio)">
               </div>
 
               <div
@@ -95,8 +95,9 @@
 <script>
 
 import { createClient } from 'contentful'
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
 
-const client = createClient({
+const contentfulClient = createClient({
   space: 'vvbk990ec7ml',
   environment: 'master',
   accessToken: 'KUM5J76ErKQxkd8ywfQogMleSo2XycG-MdvhakJtlfg'
@@ -111,8 +112,12 @@ export default {
       return photo.fields.file.url
     },
 
+    parseContentfulJson (json) {
+      return documentToHtmlString(json)
+    },
+
     async getSpeakersFromCMS () {
-      client
+      contentfulClient
         .getEntries({
           content_type: 'speaker'
         })
