@@ -32,6 +32,16 @@
       </div>
     </div>
 
+    <div class="row bg-black text-white q-py-lg">
+      <h5 class="col-4 main-message text-right q-px-xl">About</h5>
+      <div class="col-8 text-left text-h4 main-message q-px-xl">
+        An annual conference about building and scaling event and domanin driven applicaions. <br/>
+        On the JVM.<br/>
+        On the Cloud.
+
+      </div>
+    </div>
+
     <div class="row q-my-none q-pb-xl bg-white">
       <div class="col-3 q-pa-md text-center">
         <q-avatar class="q-pa-xs q-ma-xs" size="15rem" text-color="primary" icon="campaign"/>
@@ -162,27 +172,36 @@
   </q-page>
 </template>
 
-<style lang="sass" scoped>
-  .custom-caption
-    text-align: center
-    padding: 12px
-    color: white
-    width: 100%
-    background-color: rgba(0, 0, 0, .4)
-  .carousel-row
+<style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap');
+
+  .main-message {
+    font-family: 'Dosis', sans-serif;
+    font-weight: bold;
+  }
+  .custom-caption {
+    text-align: center;
+    padding: 12px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .4);
+  }
+
+  .carousel-row {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     height: 80vh !important;
+  }
 </style>
 
 <script>
 
-import QCarouselSlide from 'quasar'
+import { QCarouselSlide } from 'quasar'
 
 export default {
-  components: [
+  components: {
     QCarouselSlide
-  ],
+  },
   name: 'Home',
   data () {
     return {
