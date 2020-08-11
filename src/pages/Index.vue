@@ -11,19 +11,19 @@
           v-model="slide"
         >
           <q-carousel-slide :name="1" img-src="~assets/carousel/1.jpg">
-            <div class="absolute-center custom-caption text-center q-ma-xl ">
+            <div class="absolute-center custom-caption text-center q-pa-xl ">
               <div class="text-h2 text-white">October 1st and 2nd, 2020</div>
               <div class="text-h5 text-white">Two awsome days full of talks, workshops and discussions</div>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="2" img-src="~assets/carousel/2.jpg">
-            <div class="absolute-center custom-caption text-center q-ma-xl ">
+            <div class="absolute-center custom-caption text-center q-pa-xl ">
               <div class="text-h2 text-white">Virtually everywhere</div>
               <div class="text-h5 text-white">You stay safe. We deliver an awesome conference experience to you.</div>
             </div>
           </q-carousel-slide>
           <q-carousel-slide :name="3" img-src="~assets/carousel/3.jpg">
-            <div class="absolute-center custom-caption text-center q-ma-xl ">
+            <div class="absolute-center custom-caption text-center q-pa-xl ">
               <div class="text-h2 text-white">High-rated speakers from all around the globe</div>
               <div class="text-h5 text-white">Ample time to meet and discuss with experts and other attendees</div>
             </div>
