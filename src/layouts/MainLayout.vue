@@ -7,33 +7,17 @@
           <vue-typed-js
             ref="type1"
             id="type1"
-            :strings="['Domain-', 'Event-', 'Model-']"
-            :typeSpeed="50"
+            :strings="['Domain-', 'Event-', 'People-']"
+            :typeSpeed="75"
             :loop="true"
             :cursorChar="'|'"
             :backDelay="3000"
-            :fadeOut="true"
+            :startDelay="2000"
             class="inline"
             >
             <span>
-              <span class="text-h4 conf-name-light typing"></span>
+              <span class="text-h3 conf-name-light typing"></span>
               <strong class="text-h2 conf-name">DRIVEN</strong>
-            </span>
-          </vue-typed-js>
-          <vue-typed-js
-            ref="type2"
-            id="type2"
-            :strings="['Design', '(micro)services', 'Development']"
-            :typeSpeed="50"
-            :loop="true"
-            :cursorChar="'|'"
-            :backDelay="2500"
-            :fadeOut="true"
-            class="inline"
-            :startDelay="1000"
-            >
-            <span>
-              <span class="text-h4 conf-name-light typing"></span>
               <strong class="text-h3 conf-name-light">Conference</strong>
             </span>
           </vue-typed-js>
