@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-ma-none">
 
-    <div class="row q-ma-xl">
+    <!-- <div class="row q-ma-xl">
 
       <div
         v-for="speaker in speakers"
@@ -37,7 +37,48 @@
 
         </q-card>
       </div>
+    </div>
 
+    <pre>
+    cmsSpeakers: {{ JSON.stringify(cmsSpeakers, null, '\t') }}
+    </pre> -->
+
+    <div class="row q-ma-xl">
+
+      <div
+        v-for="speaker in cmsSpeakers"
+        v-bind:key="speaker.sys.id"
+        class="col-6 q-pa-lg"
+      >
+
+        <q-card>
+          <q-card-section horizontal>
+            <q-img
+              class="col-5"
+              :src="getPhotoURL(speaker.fields.photo)"
+            />
+
+            <q-card-section>
+              <div class="text-h5 q-mt-sm q-mb-xs">{{ speaker.fields.name }}</div>
+              <div class="text-caption text-grey">
+                {{ speaker.fields.bio.content[0].content[0].value }}
+              </div>
+
+              <div
+                v-for="talk in speaker.talks"
+                v-bind:key="talk.title"
+                class="q-my-md"
+              >
+                <q-chip icon="event">{{ talk.date }}</q-chip>
+                <span class="text-h6 q-mx-md">{{ talk.title }}</span>
+              </div>
+
+            </q-card-section>
+
+          </q-card-section>
+
+        </q-card>
+      </div>
     </div>
   </q-page>
 </template>
@@ -53,10 +94,52 @@
 
 <script>
 
+import { createClient } from 'contentful'
+
+const client = createClient({
+  space: 'vvbk990ec7ml',
+  environment: 'master',
+  accessToken: 'KUM5J76ErKQxkd8ywfQogMleSo2XycG-MdvhakJtlfg'
+})
+
 export default {
   name: 'Home',
+
+  methods: {
+    getPhotoURL (photo) {
+      if (photo === undefined) return require('assets/microphone.jpg')
+      return photo.fields.file.url
+    },
+
+    async getSpeakersFromCMS () {
+      client
+        .getEntries({
+          content_type: 'speaker'
+        })
+        .then((response) => {
+          console.log(response.items)
+          this.cmsSpeakers = response.items
+        })
+        .catch(console.error)
+      // try {
+      //   this.$axios
+      //     .get('https://cdn.contentful.com/spaces/vvbk990ec7ml/environments/master/entries?access_token=KUM5J76ErKQxkd8ywfQogMleSo2XycG-MdvhakJtlfg')
+      //     .then(result => {
+      //       this.cmsSpeakers = result.data
+      //     })
+      // } catch (e) {
+      //   console.error(e)
+      // }
+    }
+  },
+
+  mounted () {
+    this.getSpeakersFromCMS()
+  },
+
   data () {
     return {
+      cmsSpeakers: [],
       speakers: [
         {
           id: 'JakobHatzl',
