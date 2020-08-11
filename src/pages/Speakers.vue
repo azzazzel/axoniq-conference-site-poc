@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-ma-none">
 
-    <!-- <div class="row q-ma-xl">
+    <div class="row q-ma-xl">
 
       <div
         v-for="speaker in speakers"
@@ -18,59 +18,16 @@
 
             <q-card-section>
               <div class="text-h5 q-mt-sm q-mb-xs">{{ speaker.name }}</div>
-              <div class="text-caption text-grey">
-                {{ speaker.bio }}
+              <div class="text-caption text-grey" v-html="speaker.bio">
               </div>
 
               <div
                 v-for="talk in speaker.talks"
-                v-bind:key="talk.title"
+                v-bind:key="talk.id"
                 class="q-my-md"
               >
-                <q-chip icon="event">{{ talk.date }}</q-chip>
-                <span class="text-h6 q-mx-md">{{ talk.title }}</span>
-              </div>
-
-            </q-card-section>
-
-          </q-card-section>
-
-        </q-card>
-      </div>
-    </div>
-
-    <pre>
-    cmsSpeakers: {{ cmsSpeakers }}
-    </pre>
--->
-
-    <div class="row q-ma-xl">
-
-      <div
-        v-for="speaker in cmsSpeakers"
-        v-bind:key="speaker.sys.id"
-        class="col-6 q-pa-lg"
-      >
-
-        <q-card>
-          <q-card-section horizontal>
-            <q-img
-              class="col-5"
-              :src="getPhotoURL(speaker.fields.photo)"
-            />
-
-            <q-card-section>
-              <div class="text-h5 q-mt-sm q-mb-xs">{{ speaker.fields.name }}</div>
-              <div class="text-caption text-grey" v-html="parseContentfulJson(speaker.fields.bio)">
-              </div>
-
-              <div
-                v-for="talk in speaker.talks"
-                v-bind:key="talk.title"
-                class="q-my-md"
-              >
-                <q-chip icon="event">{{ talk.date }}</q-chip>
-                <span class="text-h6 q-mx-md">{{ talk.title }}</span>
+                <div><q-chip outline icon="event">{{ talk.time }}</q-chip></div>
+                <div class="ext-subtitle1 q-mx-md">{{ talk.title }}</div>
               </div>
 
             </q-card-section>
@@ -96,6 +53,7 @@
 
 import { createClient } from 'contentful'
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
+import { date } from 'quasar'
 
 const contentfulClient = createClient({
   space: 'vvbk990ec7ml',
@@ -122,19 +80,33 @@ export default {
           content_type: 'speaker'
         })
         .then((response) => {
-          console.log(response.items)
-          this.cmsSpeakers = response.items
+          response.items.forEach(speaker => {
+            const speakerEntry = {
+              id: speaker.sys.id,
+              name: speaker.fields.name,
+              bio: this.parseContentfulJson(speaker.fields.bio),
+              photo: this.getPhotoURL(speaker.fields.photo),
+              talks: []
+            }
+            this.speakers.push(speakerEntry)
+            contentfulClient
+              .getEntries({
+                links_to_entry: speakerEntry.id,
+                content_type: 'talk'
+              })
+              .then((response) => {
+                response.items.forEach(talk => {
+                  const talkEntry = {
+                    id: talk.sys.id,
+                    title: talk.fields.title,
+                    time: date.formatDate(talk.fields.time, 'MMM Do') + ' at ' + date.formatDate(talk.fields.time, 'HH:mm')
+                  }
+                  speakerEntry.talks.push(talkEntry)
+                })
+              })
+          })
         })
         .catch(console.error)
-      // try {
-      //   this.$axios
-      //     .get('https://cdn.contentful.com/spaces/vvbk990ec7ml/environments/master/entries?access_token=KUM5J76ErKQxkd8ywfQogMleSo2XycG-MdvhakJtlfg')
-      //     .then(result => {
-      //       this.cmsSpeakers = result.data
-      //     })
-      // } catch (e) {
-      //   console.error(e)
-      // }
     }
   },
 
@@ -144,27 +116,7 @@ export default {
 
   data () {
     return {
-      cmsSpeakers: [],
-      speakers: [
-        {
-          id: 'JakobHatzl',
-          name: 'Jakob Hatzl',
-          bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus dictum metus, a ultricies nibh rhoncus sed. Morbi eget pulvinar tortor, fringilla mollis nisi. Etiam ornare elit lacus, id tincidunt enim pretium nec. Cras gravida augue non nunc malesuada, sit amet accumsan erat condimentum. Pellentesque blandit elit a mauris dapibus, et laoreet ex scelerisque. Nulla hendrerit sem ut interdum tempor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.',
-          photo: 'https://www.kmlvision.com/wp-content/uploads/2018/11/foto-hatzl-bw-450x450.jpg',
-          talks: [
-            {
-              date: 'Oct 1, 12:00',
-              title: 'Bringing IKOSAⓇ Automated Image Analysis to the Cloud with Axon-powered Microservices'
-
-            }
-          ]
-        },
-        {
-          id: 'AdamDymitruk',
-          name: 'Adam Dymitruk',
-          photo: 'https://media-exp1.licdn.com/dms/image/C5603AQHJwpA7NbH7kA/profile-displayphoto-shrink_200_200/0?e=1602115200&v=beta&t=nGTh68tYFCNwX6Grew8T5j0miDpyBaxcuuAQ1WZGIvg'
-        }
-      ]
+      speakers: []
     }
   }
 }
