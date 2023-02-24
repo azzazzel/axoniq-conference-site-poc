@@ -2,38 +2,37 @@
   <q-layout view="hHh lpR fff">
 
     <q-header reveal elevated class="bg-black text-white">
-      <q-toolbar class="q-py-xl">
-        <q-toolbar-title class="absolute-center">
-          <vue-typed-js
-            ref="type1"
-            id="type1"
-            :strings="['Domain-', 'Event-', 'People-']"
-            :typeSpeed="75"
-            :loop="true"
-            :cursorChar="'|'"
-            :backDelay="3000"
-            :startDelay="2000"
-            class="inline"
-            >
-            <span>
-              <span class="text-h3 conf-name-light typing"></span>
-              <strong class="text-h2 conf-name">DRIVEN</strong>
-              <strong class="text-h3 conf-name-light">Conference</strong>
-            </span>
-          </vue-typed-js>
-        </q-toolbar-title>
-      </q-toolbar>
-      <q-toolbar class="bg-primary">
+      <q-toolbar class="bg-black q-py-lg">
+        <div>
+            <strong class="text-h4 conf-name">Driv<span class="u">U</span>n</strong>
+            <strong class="text-h4 conf-name-light">Conf</strong>
+        </div>
         <div class="absolute-center">
           <q-btn
-            v-for="page in pages"
-            v-bind:key="page.name"
+            scroll
             flat
-            :label="page.name"
-            :to="{name: page.name}"
+            label="Topics"
+            @click="$root.$emit('goTopics')"
+            />
+          <q-btn
+            scroll
+            flat
+            label="Venue"
+            @click="$root.$emit('goVenue')"
+            />
+          <q-btn
+            scroll
+            flat
+            label="Program"
+            @click="$root.$emit('goSchedule')"
+            />
+          <q-btn
+            scroll
+            flat
+            label="Registration"
+            @click="$root.$emit('goTickets')"
             />
         </div>
-
       </q-toolbar>
     </q-header>
 
@@ -41,34 +40,11 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar class="row q-my-xl">
-        <div class="col-3">
-          <q-list dense flat padding>
-            <q-item
-              v-for="page in pages"
-              v-bind:key="page.name"
-              v-ripple
-              manual-focus
-              :active="true"
-              :to="{name: page.name}"
-              class="text-white"
-            >
-              <q-item-section>
-                {{ page.name }}
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
-
-        <q-separator vertical color='grey-12' spaced='3rem' />
-
-        <div class="col-3">
+    <q-footer elevated class="bg-grey-8 text-white text-right q-px-xl q-py-lg">
+        <div>
           Organized by
-          <q-img src="~assets/axoniq-logo-white.svg" width="10rem" class="q-ml-sm"></q-img>
+          <q-img src="~assets/axoniq-logo-white.svg" width="5rem" class="q-ml-sm"></q-img>
         </div>
-
-      </q-toolbar>
     </q-footer>
 
   </q-layout>
@@ -100,15 +76,23 @@
     display: inline;
   }
 
+  .u {
+    color: black;
+    text-shadow:  -2px  1px 2px $primary,
+                   1px  2px 2px $primary,
+                   2px -1px 0   $primary,
+                  -1px -2px 0   $primary;
+  }
+
 </style>
 
 <script>
 
-import { VueTypedJs } from 'vue-typed-js'
+// import { VueTypedJs } from 'vue-typed-js'
 
 export default {
   components: {
-    VueTypedJs
+    // VueTypedJs
   },
   computed: {
     pages: function () {
@@ -128,6 +112,7 @@ export default {
     }
   },
   mounted () {
+    // this.$root.$on('goVenue', this.go.bind(this, 'venue'))
   }
 
 }
