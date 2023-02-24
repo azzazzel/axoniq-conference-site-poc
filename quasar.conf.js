@@ -115,12 +115,12 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `Event-driven Microservices Conference`,
-        short_name: `Event-driven Microservices Conference`,
-        description: `Website for the Event-driven Microservices Conference`,
+        name: 'DrivUnConf',
+        short_name: 'DrivUnConf - the unconference for Event-driven software developers',
+        description: 'DrivUnConf - the unconference for Event-driven software developers',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
+        background_color: '#000000',
         theme_color: '#027be3',
         icons: [
           {
